@@ -688,7 +688,7 @@ public class CredentialsController {
                 styleAlert(info);
                 info.setTitle("No Database Selected");
                 info.setHeaderText(null);
-                info.setContentText("You must open or create a database to use CredMaster.");
+                info.setContentText("You must open or create a database to use KeyMatrix.");
                 info.showAndWait();
 
                 updateStatus("No database selected. Please open or create one.");
