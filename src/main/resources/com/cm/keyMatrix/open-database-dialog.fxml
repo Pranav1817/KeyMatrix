@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.cm.keyMatrix.OpenDatabaseController"
+      spacing="18"
+      alignment="CENTER"
+      styleClass="dialog-root">
+
+    <Label text="Open Existing Database"
+           styleClass="dialog-title"/>
+
+    <GridPane hgap="12" vgap="14">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" minWidth="130"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+            <ColumnConstraints minWidth="80"/>
+        </columnConstraints>
+
+        <Label text="Database Folder:"
+               GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="tfFolder"
+                   promptText="Select database folder"
+                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Button text="Browse…"
+                onAction="#onBrowse"
+                GridPane.rowIndex="0" GridPane.columnIndex="2"
+                styleClass="ghost-button"/>
+
+        <Label text="Master Password:"
+               GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="pfPassword"
+                       promptText="Enter master password"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="14" alignment="CENTER_RIGHT">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Cancel"
+                onAction="#onCancel"
+                styleClass="ghost-button"/>
+        <Button text="Open"
+                onAction="#onOpen"
+                styleClass="primary-button"/>
+    </HBox>
+</VBox>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.cm.keyMatrix.SearchController"
+      spacing="12"
+      alignment="CENTER"
+      styleClass="dialog-root">
+
+    <Label text="Search Results"
+           styleClass="dialog-title"/>
+
+    <TableView fx:id="tableResults"
+               prefHeight="300"
+               prefWidth="600"
+               styleClass="elevated-table">
+        <columns>
+            <TableColumn fx:id="colSite" text="Site/App" prefWidth="160"/>
+            <TableColumn fx:id="colUsername" text="Username" prefWidth="160"/>
+            <TableColumn fx:id="colTags" text="Tags" prefWidth="120"/>
+            <TableColumn fx:id="colUpdated" text="Updated" prefWidth="120"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Cancel"
+                onAction="#onCancel"
+                styleClass="ghost-button"/>
+        <Button text="Select"
+                onAction="#onSelect"
+                styleClass="primary-button"/>
+    </HBox>
+</VBox>

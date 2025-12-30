@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.cm.keyMatrix.CredentialsController"
+            styleClass="root-pane">
+
+
+    <!-- Top: Menu and toolbar -->
+    <top>
+        <!-- Custom TitleBar -->
+
+        <VBox spacing="4" styleClass="top-container">
+            <!-- Custom TitleBar -->
+            <HBox fx:id="titleBar" styleClass="window-header">
+                <Label text="KeyMatrix" styleClass="window-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <HBox spacing="4">
+                    <Button fx:id="btnMinimize" text="—" styleClass="window-button" onAction="#onMinimize"/>
+                    <Button fx:id="btnMaximize" text="⬜" styleClass="window-button" onAction="#onMaximize"/>
+                    <Button fx:id="btnClose" text="✕" styleClass="window-button" onAction="#onClose"/>
+                </HBox>
+            </HBox>
+
+            <ToolBar styleClass="main-toolbar">
+
+                <!-- Menus -->
+                <MenuButton text="File" styleClass="toolbar-menu">
+                    <items>
+                        <MenuItem fx:id="miNew" text="New Database" onAction="#onNewDatabase"/>
+                        <MenuItem fx:id="miOpen" text="Open Database" onAction="#onOpenDatabase"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem fx:id="miExit" text="Exit" onAction="#onExit"/>
+                    </items>
+                </MenuButton>
+
+                <!-- Theme menu commented in your file – leaving it out for now -->
+                <Separator/>
+
+                <!-- Toolbar buttons -->
+                <Button fx:id="btnGenerate" text="Generate password"
+                        onAction="#onGeneratePassword"
+                        styleClass="primary-button"/>
+                <Button fx:id="btnCopyUsername" text="Copy user"
+                        onAction="#onCopyUsername" disable="true"
+                        styleClass="ghost-button"/>
+                <Button fx:id="btnCopyPassword" text="Copy password"
+                        onAction="#onCopyPassword" disable="true"
+                        styleClass="ghost-button"/>
+
+                <Separator/>
+
+                <!-- Search -->
+                <Label text="Search:" styleClass="toolbar-label"/>
+                <TextField fx:id="tfSearch"
+                           promptText="site, username, tags…"
+                           HBox.hgrow="ALWAYS"
+                           styleClass="search-field"/>
+                <Button text="Search…" onAction="#onSearchDialog"
+                        styleClass="ghost-button"/>
+                <Button fx:id="btnClearSearch" text="Clear"
+                        onAction="#onClearSearch"
+                        styleClass="ghost-button"/>
+
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <!-- Center: Split view - form (left) and table (right) -->
+    <center>
+        <SplitPane dividerPositions="0.38" styleClass="main-split">
+            <!-- Left: Entry form -->
+            <ScrollPane fitToWidth="true" styleClass="content-scroll">
+                <content>
+                    <VBox spacing="12" styleClass="content-container">
+                        <TitledPane text="Credential details" expanded="true" styleClass="card-pane">
+                            <content>
+                                <GridPane hgap="8" vgap="8">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="80" halignment="RIGHT"/>
+                                        <ColumnConstraints hgrow="ALWAYS"/>
+                                        <ColumnConstraints minWidth="80"/>
+                                    </columnConstraints>
+
+                                    <rowConstraints>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                        <RowConstraints/>
+                                    </rowConstraints>
+
+                                    <Label text="Site / app:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="tfSite" promptText="example.com or App name"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                                    <Label text="URL:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="tfUrl" promptText="https://example.com/login"
+                                               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                                    <Label text="Username:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="tfUsername" promptText="username or email"
+                                               GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                    <Button fx:id="btnCopyUserInline" text="Copy"
+                                            onAction="#onCopyUsername"
+                                            GridPane.rowIndex="2" GridPane.columnIndex="2"
+                                            styleClass="small-button"/>
+
+                                    <Label text="Password:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                    <StackPane GridPane.rowIndex="3" GridPane.columnIndex="1">
+                                        <PasswordField fx:id="pfPassword" promptText="••••••••"/>
+                                        <TextField fx:id="tfPasswordVisible"
+                                                   promptText="password"
+                                                   visible="false" managed="false"/>
+                                    </StackPane>
+                                    <HBox spacing="6" alignment="CENTER_RIGHT"
+                                          GridPane.rowIndex="3" GridPane.columnIndex="2">
+                                        <Button fx:id="btnTogglePwd" text="Show"
+                                                onAction="#onTogglePasswordVisibility"
+                                                styleClass="small-button"/>
+                                        <Button fx:id="btnCopyPwdInline" text="Copy"
+                                                onAction="#onCopyGeneratedPassword"
+                                                styleClass="small-button"/>
+                                    </HBox>
+
+                                    <Label text="Tags:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                    <TextField fx:id="tfTags" promptText="work, personal, banking"
+                                               GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                                    <Label text="Notes:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                                    <TextArea fx:id="taNotes" promptText="Optional notes" prefRowCount="4"
+                                              GridPane.rowIndex="5" GridPane.columnIndex="1"
+                                              GridPane.columnSpan="2"/>
+
+                                    <Label text="Last Updated:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                                    <Label fx:id="lblUpdated" text="-"
+                                           GridPane.rowIndex="6" GridPane.columnIndex="1"
+                                           styleClass="muted-label"/>
+                                </GridPane>
+                            </content>
+                        </TitledPane>
+
+                        <TitledPane text="Password generator" expanded="false" styleClass="card-pane">
+                            <content>
+                                <GridPane hgap="8" vgap="8">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="100" halignment="RIGHT"/>
+                                        <ColumnConstraints hgrow="ALWAYS"/>
+                                        <ColumnConstraints minWidth="40"/>
+                                    </columnConstraints>
+
+                                    <Label text="Length:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                    <Slider fx:id="slLength" min="8" max="64" value="16"
+                                            showTickLabels="true" showTickMarks="true"
+                                            majorTickUnit="8" minorTickCount="3"
+                                            GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                                    <Label fx:id="lblLength" text="16"
+                                           GridPane.rowIndex="0" GridPane.columnIndex="2"
+                                           styleClass="muted-label"/>
+
+                                    <CheckBox fx:id="cbUpper" text="Include uppercase (A–Z)" selected="true"
+                                              GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                                    <CheckBox fx:id="cbLower" text="Include lowercase (a–z)" selected="true"
+                                              GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                    <CheckBox fx:id="cbDigits" text="Include digits (0–9)" selected="true"
+                                              GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                                    <CheckBox fx:id="cbSymbols" text="Include symbols (!@#$…)"
+                                              GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                                    <HBox spacing="8" alignment="CENTER_RIGHT"
+                                          GridPane.rowIndex="5" GridPane.columnIndex="1"
+                                          GridPane.columnSpan="2">
+                                        <Button fx:id="btnGenNow" text="Generate"
+                                                onAction="#onGeneratePassword"
+                                                styleClass="primary-button"/>
+                                    </HBox>
+                                </GridPane>
+                            </content>
+                        </TitledPane>
+
+                        <HBox spacing="8" alignment="CENTER_RIGHT">
+                            <Button fx:id="btnFormClear" text="Clear" onAction="#onClearForm"
+                                    styleClass="ghost-button"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button fx:id="btnFormDelete" text="Delete" onAction="#onDeleteEntry"
+                                    disable="true" styleClass="danger-outline-button"/>
+                            <Button fx:id="btnFormUpdate" text="Update" onAction="#onUpdateEntry"
+                                    disable="true" styleClass="secondary-button"/>
+                            <Button fx:id="btnFormAdd" text="Add" onAction="#onAddEntry"
+                                    disable="true" styleClass="primary-button"/>
+                        </HBox>
+                    </VBox>
+                </content>
+                <padding>
+                    <Insets topRightBottomLeft="10"/>
+                </padding>
+            </ScrollPane>
+
+            <!-- Right: Table of saved credentials -->
+            <VBox spacing="8" fx:id="tableBox" styleClass="table-container">
+                <Label text="Saved credentials" styleClass="section-title"/>
+                <TableView fx:id="tableCredentials"
+                           VBox.vgrow="ALWAYS"
+                           onMouseClicked="#onTableClicked"
+                           styleClass="elevated-table">
+                    <columns>
+                        <TableColumn fx:id="colSite" text="Site/App" prefWidth="160"/>
+                        <TableColumn fx:id="colUrl" text="URL" prefWidth="200"/>
+                        <TableColumn fx:id="colUsername" text="Username" prefWidth="160"/>
+                        <TableColumn fx:id="colTags" text="Tags" prefWidth="120"/>
+                        <TableColumn fx:id="colUpdated" text="Updated" prefWidth="120"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <Button fx:id="btnTableCopyUser" text="Copy user"
+                            onAction="#onCopyUsername" disable="true"
+                            styleClass="ghost-button"/>
+                    <Button fx:id="btnTableCopyPassword" text="Copy password"
+                            onAction="#onCopyPassword" disable="true"
+                            styleClass="ghost-button"/>
+                </HBox>
+                <padding>
+                    <Insets topRightBottomLeft="10"/>
+                </padding>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <!-- Bottom: Status bar -->
+    <bottom>
+        <HBox spacing="8" alignment="CENTER_LEFT" styleClass="status-bar">
+            <Label fx:id="lblStatus" text="Ready" styleClass="status-text"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <ProgressIndicator fx:id="progressIndicator"
+                               visible="false" prefWidth="20" prefHeight="20"
+                               styleClass="status-progress"/>
+            <Label text="DB:" styleClass="muted-label"/>
+            <Label fx:id="lblDatabaseName" text="(unsaved)" styleClass="status-value"/>
+            <Separator orientation="VERTICAL"/>
+            <Label text="Entries:" styleClass="muted-label"/>
+            <Label fx:id="lblEntryCount" text="0" styleClass="status-value"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
